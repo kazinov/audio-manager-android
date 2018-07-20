@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE = 123;
     final String LOGCAT_TAG = "audiomanager";
@@ -45,30 +47,37 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        ContentResolver contentResolver = getContentResolver();
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-
-        mResult.setText("");
-        if (cursor == null) {
-            // query failed, handle error.
-        } else if (!cursor.moveToFirst()) {
-            // no media on the device
-        } else {
-            int id = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
-            int title = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-
-            do {
-//                // Get the current audio file id
-//                long thisId = cursor.getLong(id);
-//                mResult.append("\n\n" + thisId);
-
-                // Get the current audio title
-                String thisTitle = cursor.getString(title);
-                mResult.append("\n" + thisTitle);
-                // Process current music here
-            } while (cursor.moveToNext());
+        AudioGetter audioGetter = new AudioGetter(getContentResolver());
+        List<AudioFile> list = audioGetter.getFiles();
+        for (AudioFile audioFile : list) {
+            mResult.append("\n" + audioFile.title);
         }
+
+//        ContentResolver contentResolver = getContentResolver();
+//        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+//
+//        mResult.setText("");
+//        if (cursor == null) {
+//            // query failed, handle error.
+//        } else if (!cursor.moveToFirst()) {
+//            // no media on the device
+//        } else {
+//            int id = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
+//            int title = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+////            int title = cursor.getColumnIndex(MediaStore.);
+//
+//            do {
+////                // Get the current audio file id
+////                long thisId = cursor.getLong(id);
+////                mResult.append("\n\n" + thisId);
+//
+//                // Get the current audio title
+//                String thisTitle = cursor.getString(title);
+//                mResult.append("\n" + thisTitle);
+//                // Process current music here
+//            } while (cursor.moveToNext());
+//        }
     }
 
     @Override
