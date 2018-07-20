@@ -1,20 +1,17 @@
 package com.kazinov.audiomanager;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     final int REQUEST_CODE = 123;
@@ -29,9 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mResult = findViewById(R.id.logContainer);
-
-        // TODO: needed?
-        // mResult.setMovementMethod(new ScrollingMovementMethod());
+        mResult.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @Override
@@ -47,37 +42,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        AudioGetter audioGetter = new AudioGetter(getContentResolver());
-        List<AudioFile> list = audioGetter.getFiles();
-        for (AudioFile audioFile : list) {
-            mResult.append("\n" + audioFile.title);
+        MediaParser mediaParser = new MediaParser(getContentResolver());
+        Map<Long, AudioFolder> foldersMap = mediaParser.getFolders();
+        mResult.setText("");
+        for (Map.Entry<Long, AudioFolder> entry : foldersMap.entrySet()) {
+            AudioFolder folder = entry.getValue();
+            mResult.append("\n" + folder.title);
         }
-
-//        ContentResolver contentResolver = getContentResolver();
-//        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-//        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-//
-//        mResult.setText("");
-//        if (cursor == null) {
-//            // query failed, handle error.
-//        } else if (!cursor.moveToFirst()) {
-//            // no media on the device
-//        } else {
-//            int id = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
-//            int title = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-////            int title = cursor.getColumnIndex(MediaStore.);
-//
-//            do {
-////                // Get the current audio file id
-////                long thisId = cursor.getLong(id);
-////                mResult.append("\n\n" + thisId);
-//
-//                // Get the current audio title
-//                String thisTitle = cursor.getString(title);
-//                mResult.append("\n" + thisTitle);
-//                // Process current music here
-//            } while (cursor.moveToNext());
-//        }
     }
 
     @Override
