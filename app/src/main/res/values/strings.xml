@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Audio Manager</string>
+    <string name="sample_folder_name">Folder</string>
 </resources>

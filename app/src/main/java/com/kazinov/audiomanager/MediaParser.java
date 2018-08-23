@@ -31,21 +31,44 @@ public class MediaParser {
             Integer titleColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
             Integer albumIdColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID);
             Integer albumTitleColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            Integer albumArtColumnIndex = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
             do {
                 Long audioId = cursor.getLong(idColumnIndex);
                 String audioTitle = cursor.getString(titleColumnIndex);
                 AudioFile audioFile = new AudioFile(audioId, audioTitle);
 
                 Long albumId = cursor.getLong(albumIdColumnIndex);
-                String albumTitle = cursor.getString(albumTitleColumnIndex);
+
                 AudioFolder folder = foldersMap.get(albumId);
                 if (folder != null) {
                     folder.filesMap.put(audioFile.id, audioFile);
                 } else {
+                    String albumTitle = cursor.getString(albumTitleColumnIndex);
+
+
+
+//                    String albumArt = cursor.getString(albumArtColumnIndex);
+
+//                    Cursor cursor = getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+//                            new String[] {MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
+//                            MediaStore.Audio.Albums._ID+ "=?",
+//                            new String[] {String.valueOf(albumId)},
+//                            null);
+//
+//                    if (cursor.moveToFirst()) {
+//                        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+//                        // do whatever you need to do
+//                    }
+
+
+
                     folder = new AudioFolder(albumId, albumTitle);
+//                    folder.albumArt = albumArt;
+
                     folder.filesMap.put(audioFile.id, audioFile);
+
                     foldersMap.put(folder.id, folder);
-                    Log.d("audiomanager", folder.id + "-" + folder.title);
+//                    Log.d("audiomanager", folder.albumArt);
                 }
 
             } while (cursor.moveToNext());

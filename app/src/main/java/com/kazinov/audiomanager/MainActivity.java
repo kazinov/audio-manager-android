@@ -8,9 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,14 +20,22 @@ public class MainActivity extends AppCompatActivity {
     final String READ_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
 
     private TextView mResult;
+    private ListView mFoldersListView;
+    private FolderListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mFoldersListView = (ListView) findViewById(R.id.folders_list);
+    }
 
-        mResult = findViewById(R.id.logContainer);
-        mResult.setMovementMethod(new ScrollingMovementMethod());
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(LOGCAT_TAG, "onStart() called");
+        mAdapter = new FolderListAdapter(this, null);
+        mFoldersListView.setAdapter(mAdapter);
     }
 
     @Override
@@ -44,11 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         MediaParser mediaParser = new MediaParser(getContentResolver());
         Map<Long, AudioFolder> foldersMap = mediaParser.getFolders();
-        mResult.setText("");
-        for (Map.Entry<Long, AudioFolder> entry : foldersMap.entrySet()) {
-            AudioFolder folder = entry.getValue();
-            mResult.append("\n" + folder.title);
-        }
+        mAdapter.update(new ArrayList<AudioFolder>(foldersMap.values()));
     }
 
     @Override
