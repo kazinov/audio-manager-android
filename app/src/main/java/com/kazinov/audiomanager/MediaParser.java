@@ -6,9 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MediaParser {
@@ -44,31 +42,24 @@ public class MediaParser {
                     folder.filesMap.put(audioFile.id, audioFile);
                 } else {
                     String albumTitle = cursor.getString(albumTitleColumnIndex);
-
-
-
-//                    String albumArt = cursor.getString(albumArtColumnIndex);
-
-//                    Cursor cursor = getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-//                            new String[] {MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
-//                            MediaStore.Audio.Albums._ID+ "=?",
-//                            new String[] {String.valueOf(albumId)},
-//                            null);
-//
-//                    if (cursor.moveToFirst()) {
-//                        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-//                        // do whatever you need to do
-//                    }
-
-
-
                     folder = new AudioFolder(albumId, albumTitle);
-//                    folder.albumArt = albumArt;
+
+                    Cursor albumArtCursor = contentResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                            new String[] {MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
+                            MediaStore.Audio.Albums._ID+ "=?",
+                            new String[] {String.valueOf(albumId)},
+                            null);
+
+                    if (albumArtCursor.moveToFirst()) {
+                        String albumArtPath = albumArtCursor.getString(albumArtCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+                        folder.albumArtPath = albumArtPath;
+                        if (folder.albumArtPath != null) {
+                            Log.d("album-art", folder.albumArtPath);
+                        }
+                    }
 
                     folder.filesMap.put(audioFile.id, audioFile);
-
                     foldersMap.put(folder.id, folder);
-//                    Log.d("audiomanager", folder.albumArt);
                 }
 
             } while (cursor.moveToNext());

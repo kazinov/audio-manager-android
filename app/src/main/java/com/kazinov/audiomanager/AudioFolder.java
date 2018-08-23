@@ -8,7 +8,7 @@ import java.util.Map;
 public class AudioFolder {
     long id;
     String title;
-    String albumArt;
+    String albumArtPath;
 
     Map<Long, AudioFile> filesMap = new HashMap<Long, AudioFile>();
 
