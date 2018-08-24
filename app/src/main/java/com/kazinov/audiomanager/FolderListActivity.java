@@ -7,11 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.kazinov.audiomanager.utils.MediaParser;
 
@@ -21,11 +19,10 @@ import java.util.Map;
 import static com.kazinov.audiomanager.FileListActivity.FolderIdBundleTag;
 
 public class FolderListActivity extends AppCompatActivity {
-    final int REQUEST_CODE = 123;
+    final static int REQUEST_READ_INTERNAL_STORAGE_PERMISSIONS_ID = 123;
     final static String LOGCAT_TAG = "audiomanager";
-    final String READ_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
+    final static String READ_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
 
-    private TextView mResult;
     private ListView mFoldersListView;
     private FolderListAdapter mAdapter;
 
@@ -54,13 +51,12 @@ public class FolderListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(LOGCAT_TAG, "onResume() called");
-        getAudioFiles();
+        getAlbums();
     }
 
-    private void getAudioFiles() {
+    private void getAlbums() {
         if (ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{READ_EXTERNAL_STORAGE_PERMISSION}, REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{READ_EXTERNAL_STORAGE_PERMISSION}, REQUEST_READ_INTERNAL_STORAGE_PERMISSIONS_ID);
             return;
         }
 
@@ -73,9 +69,9 @@ public class FolderListActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_READ_INTERNAL_STORAGE_PERMISSIONS_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getAudioFiles();
+                getAlbums();
             }
         }
     }

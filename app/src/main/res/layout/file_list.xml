@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FileListActivity">
-<android.support.v7.widget.AppCompatTextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="FileList"/>
+
+    <ListView
+        android:id="@+id/filesList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:transcriptMode="alwaysScroll" />
+
 </android.support.constraint.ConstraintLayout>
