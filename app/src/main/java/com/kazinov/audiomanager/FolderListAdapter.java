@@ -9,17 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
 public class FolderListAdapter extends BaseAdapter {
-    private List<AudioFolder> mFoldersList;
+    private List<AudioAlbum> mFoldersList;
     private Activity mActivity;
 
-    public FolderListAdapter(Activity activity, List<AudioFolder> foldersList) {
+    public FolderListAdapter(Activity activity, List<AudioAlbum> foldersList) {
         mActivity = activity;
         mFoldersList = foldersList;
     }
@@ -29,7 +27,7 @@ public class FolderListAdapter extends BaseAdapter {
         ImageView folderImage;
     }
 
-    void update(List<AudioFolder> foldersList) {
+    void update(List<AudioAlbum> foldersList) {
         mFoldersList = foldersList;
         notifyDataSetChanged();
     }
@@ -43,7 +41,7 @@ public class FolderListAdapter extends BaseAdapter {
     }
 
     @Override
-    public AudioFolder getItem(int i) {
+    public AudioAlbum getItem(int i) {
         if (mFoldersList == null) {
             return null;
         }
@@ -74,7 +72,7 @@ public class FolderListAdapter extends BaseAdapter {
             view.setTag(holder);
         }
 
-        final AudioFolder folder = getItem(i);
+        final AudioAlbum folder = getItem(i);
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.folderName.setText(folder.title);
 

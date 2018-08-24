@@ -1,13 +1,16 @@
 package com.kazinov.audiomanager;
 
-public class AudioFile {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class AudioAlbum {
     public long id;
     public String title;
-    public long albumId;
-    public String albumTitle;
-    public String imagePath;
+    public String albumArtPath;
 
-    public AudioFile(
+    public AudioAlbum(
             long id,
             String title
     ) {

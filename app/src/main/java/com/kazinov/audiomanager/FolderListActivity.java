@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.kazinov.audiomanager.utils.MediaParser;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -36,7 +38,7 @@ public class FolderListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 FolderListAdapter adapter = (FolderListAdapter) adapterView.getAdapter();
-                AudioFolder folder = adapter.getItem(i);
+                AudioAlbum folder = adapter.getItem(i);
                 goToFilesList(folder.id);
             }
         });
@@ -63,8 +65,8 @@ public class FolderListActivity extends AppCompatActivity {
         }
 
         MediaParser mediaParser = new MediaParser(getContentResolver());
-        Map<Long, AudioFolder> foldersMap = mediaParser.getFolders();
-        mAdapter.update(new ArrayList<AudioFolder>(foldersMap.values()));
+        Map<Long, AudioAlbum> foldersMap = mediaParser.getAlbums();
+        mAdapter.update(new ArrayList<AudioAlbum>(foldersMap.values()));
     }
 
     @Override
