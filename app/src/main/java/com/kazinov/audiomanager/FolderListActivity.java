@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class FolderListActivity extends AppCompatActivity {
     final int REQUEST_CODE = 123;
     final String LOGCAT_TAG = "audiomanager";
     final String READ_EXTERNAL_STORAGE_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.folder_list);
         mFoldersListView = (ListView) findViewById(R.id.folders_list);
     }
 
